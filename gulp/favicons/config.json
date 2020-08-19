@@ -1,0 +1,45 @@
+{
+    "path": "/favicons/",
+
+    "background": "#ff8a4c",
+    "theme_color": "#ff8a4c",
+    "appleStatusBarStyle": "default",
+
+    "scope": "/",
+    "start_url": "/",
+
+    "display": "standalone",
+    "orientation": "portrait",
+
+    "logging": false,
+    "html": "icons.html",
+    "pipeHTML": true,
+    "replace": true,
+
+    "icons": {
+        "android": {
+            "background": "#ff8a4c",
+            "offset": 5
+        },
+        "appleIcon": {
+            "offset": 5
+        },
+        "appleStartup": {
+            "offset": 10
+        },
+        "coast": false,
+        "favicons": {
+            "background": "#ff8a4c",
+            "offset": 5
+        },
+        "firefox": {
+            "offset": 10,
+            "overlayGlow": false
+        },
+        "windows": {
+            "background": "#ff8a4c",
+            "offset": 5
+        },
+        "yandex": false
+    }
+}
