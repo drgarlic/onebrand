@@ -30,9 +30,13 @@ module.exports = {
                     raw: '(prefers-color-scheme: light)',
                 },
             },
+            inset: {
+                '2': '0.5rem',
+                '15': '3.75rem',
+            },
             zIndex: {
                 '-10': '-10',
-            }
+            },
         },
     },
     plugins: [

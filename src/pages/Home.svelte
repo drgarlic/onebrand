@@ -28,7 +28,7 @@
         res = await res.json()
         companies = res.records.map(x => x.fields).sort(sortByName)
         console.log(companies)
-        genders = [ '...', ...getUniqueValues(companies, 'For...') ]
+        genders = [ '...', ...getUniqueValues(companies, 'For...') ].reverse()
         continents = [ '...', ...getUniqueValues(companies, 'Present in...') ]
         types = [ '...', ...getUniqueValues(companies, 'Sells...') ]
         styles = [ '...', ...getUniqueValues(companies, 'Styles') ]
@@ -124,10 +124,10 @@
             </div>
         </div>
     </header>
-    <main class="
-        space-y-8
-    ">
-        {#if companies}
+    {#if companies}
+        <main class="
+            space-y-8
+        ">
             <div class="
                 p-2
                 sm:p-12
@@ -186,6 +186,17 @@
                     <Card {company} />
                 {/each}
             </div>
-        {/if}
-    </main>
+        </main>
+        <footer>
+            <p class="
+                p-4
+                text-center
+                text-base
+                leading-6
+                text-gray-400
+            ">
+                &copy; {new Date().getFullYear()} Onebrand, No right reserved.
+            </p>
+        </footer>
+    {/if}
 </div>

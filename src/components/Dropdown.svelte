@@ -9,10 +9,25 @@
     let toggle = false
     let button
     let dropdown
+    let positionClasses
+    let width
 
     const dispatch = createEventDispatcher()
 
-    let position = '-right-22 origin-center'
+    $: if (width && button) {
+        const bb = button.getBoundingClientRect()
+        // w-56 = 24 rem = 224px (if base is 16px) / 2 = 112
+        const left = bb.left - 112
+        const right = bb.right + 112
+        console.log(left, right, width);
+        if (left >= 0 && right > width - 1) {
+            positionClasses = 'origin-top-right right-2'
+        } else if (left < 0 && right < width) {
+            positionClasses = 'origin-top-left left-2'
+        } else {
+            positionClasses = 'origin-center left-15'
+        }
+    }
 
     const onClickOutside = (event) => {
         if (toggle) {
@@ -34,7 +49,7 @@
     }
 </script>
 
-<svelte:body on:click={onClickOutside} />
+<svelte:window bind:innerWidth={width} on:click={onClickOutside} />
 
 <div class="
     px-2
@@ -102,7 +117,7 @@
             border-black
             bg-white
             p-2
-            {position}
+            {positionClasses}
         ">
         {#each options as option}
                 <button
