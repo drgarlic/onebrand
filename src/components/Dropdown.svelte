@@ -54,13 +54,17 @@
         class="
         inline-flex
         justify-center
+        items-center
         w-full
         rounded-lg
         border-4
         border-black
-        px-4
-        py-2
-        text-2xl
+        px-3
+        sm:px-4
+        py-1
+        sm:py-2
+        text-xl
+        sm:text-2xl
         font-extrabold
         leading-5
         text-black

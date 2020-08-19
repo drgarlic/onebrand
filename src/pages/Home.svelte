@@ -80,7 +80,7 @@
         justify-center
         space-y-4
     ">
-        <svg class="h-40 w-auto" viewBox="0 0 250 250" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
+        <svg class="h-36 sm:h-40 w-auto" viewBox="0 0 250 250" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
             <path d="M148.333,105.454c0,12.888 -10.445,23.338 -23.333,23.338c-12.883,-0 -23.333,-10.45 -23.333,-23.338c-0,-12.887 10.45,-23.333 23.333,-23.333c12.888,-0 23.333,10.446 23.333,23.333" style="fill:currentColor;fill-rule:nonzero;"/>
             <path d="M178.333,202.121c0,4.583 -3.75,8.333 -8.333,8.333l-90,0c-4.583,0 -8.333,-3.75 -8.333,-8.333l-0,-46.667c-0,-4.583 3.75,-8.333 8.333,-8.333l90,-0c4.583,-0 8.333,3.75 8.333,8.333l0,46.667Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:12.5px;"/>
             <path d="M71.667,170.454l106.666,0" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:12.5px;"/>
@@ -94,12 +94,12 @@
             space-y-2
         ">
             <div class="
-                text-6xl
+                text-5xl
+                sm:text-6xl
                 font-black
                 leading-none
                 tracking-tight
             ">
-                <!-- <span class="text-orange">One</span>brand -->
                 <span class="text-orange-400">On</span><span class="
                     bg-clip-text
                     text-transparent
@@ -112,7 +112,7 @@
                 font-bold
                 text-2xl
             ">
-                Find the best brands for <strong class="underline">your</strong> needs !
+                Find the best brands for <br class="sm:hidden"><strong class="underline">your</strong> needs !
             </div>
             <div class="
                 text-gray-500
@@ -129,44 +129,57 @@
     ">
         {#if companies}
             <div class="
-                p-12
-                text-3xl
+                p-2
+                sm:p-12
+                text-2xl
+                sm:text-3xl
                 font-extrabold
+                space-y-1
             ">
-                I'm a
-                <Dropdown
-                    on:select={(event) => { gender = event.detail.value; filter() }}
-                    options={genders}
-                    value={gender}
-                />
-                from
-                <Dropdown
-                    on:select={(event) => { continent = event.detail.value; filter() }}
-                    options={continents}
-                    value={continent}
-                />
-                looking for a
-                <Dropdown
-                    on:select={(event) => { type = event.detail.value; filter() }}
-                    options={types}
-                    value={type}
-                />
-                with a 
-                <Dropdown
-                    on:select={(event) => { style = event.detail.value; filter() }}
-                    options={styles}
-                    value={style}
-                />
-                style, that costs around
-                <Dropdown
-                    on:select={(event) => { price = event.detail.value; filter() }}
-                    options={prices}
-                    value={price}    
-                />
+                <div>
+                    I'm a
+                    <Dropdown
+                        on:select={(event) => { gender = event.detail.value; filter() }}
+                        options={genders}
+                        value={gender}
+                    />
+                    from
+                    <Dropdown
+                        on:select={(event) => { continent = event.detail.value; filter() }}
+                        options={continents}
+                        value={continent}
+                    />
+                    looking for
+                    <Dropdown
+                        on:select={(event) => { type = event.detail.value; filter() }}
+                        options={types}
+                        value={type}
+                    />
+                    with a(n)
+                    <Dropdown
+                        on:select={(event) => { style = event.detail.value; filter() }}
+                        options={styles}
+                        value={style}
+                    />
+                    style, that costs around
+                    <Dropdown
+                        on:select={(event) => { price = event.detail.value; filter() }}
+                        options={prices}
+                        value={price}    
+                    />
+                </div>
+                <div class="
+                    text-lg
+                    sm:text-xl
+                    text-gray-300
+                ">
+                    All these parameters are of course optionnal !
+                </div>
             </div>
             <div class="
                 grid
-                grid-cols-3
+                sm:grid-cols-2
+                lg:grid-cols-3
                 gap-6
             ">
                 {#each filteredCompanies as company}
