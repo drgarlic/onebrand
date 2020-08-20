@@ -16,11 +16,9 @@ let config = {
     ],
 	optimizeDeps: {
         include: [
-            // 'airtable/build/airtable.browser',
             'svelte-spa-chunk/src/index',
         ],
         exclude: [
-            'airtable',
             'svelte-spa-chunk',
         ],
     },

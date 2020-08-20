@@ -49,9 +49,9 @@
     const getUniqueValues = (arr, field) => [ ...new Set(arr.flatMap(x => x[field])) ].sort()
 
     const update = async () => {
-        let res = await fetch('https://api.airtable.com/v0/appjZ7KSO2xCNMJak/Table%201', {
+        let res = await fetch('/api/companies', {
             headers: {
-                Authorization: 'Bearer key0GBsyIKRynkygI'
+                'Cache-Control': 's-maxage=1, stale-while-revalidate',
             }
         })
         res = await res.json()
@@ -66,6 +66,11 @@
 
     update()
 </script>
+
+<svelte:head>
+    <title>Homepage - OneBrand</title>
+    <meta name="description" content="A website with the favorite brands for onebagging."/>
+</svelte:head>
 
 <div class="
     px-4

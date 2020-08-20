@@ -19,7 +19,7 @@
     hover:shadow-2xl
 ">
     <div
-        style={`background-image: url(${company['Image'][0].url})`}
+        style={company['Image'] && company['Image'][0] ? `background-image: url(${company['Image'][0].url})` : ''}
         class="
         rounded-md
         h-64

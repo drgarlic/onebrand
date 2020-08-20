@@ -1,12 +1,12 @@
 {
-  "name": "name",
+  "name": "onebrand",
   "version": "1.0.0",
-  "description": "Description",
-  "homepage": "https://author.com",
+  "description": "A website with the favorite brands for onebagging",
+  "homepage": "https://onebrand.vercel.app/",
   "author": {
-    "name": "author name",
-    "email": "author@mail.com",
-    "url": "https://github.com/author"
+    "name": "Kevin Gawlik",
+    "email": "kevin@gawlik.io",
+    "url": "https://github.com/gawlk"
   },
   "contributors": [],
   "main": "src/main.js",
@@ -31,6 +31,7 @@
     "gulp-rename": "^2.0.0",
     "gulp-string-replace": "^1.1.2",
     "gulp-webp": "^4.0.1",
+    "node-fetch": "^2.6.0",
     "sirv-cli": "^1.0.6",
     "sitemap": "^6.2.0",
     "svite": "^0.5.0",
