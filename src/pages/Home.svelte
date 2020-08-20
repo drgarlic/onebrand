@@ -1,21 +1,50 @@
 <script>
+    import Button from '/src/components/Button.svelte'
     import Card from '/src/components/Card.svelte'
     import Dropdown from '/src/components/Dropdown.svelte'
 
+    let defaultValue = '...'
     let companies
     let filteredCompanies
     let genders
     let continents
     let types
     let styles
-    let prices = [ '...', '$', '$$', '$$$', '$$$$' ]
-    let gender = '...'
-    let continent = '...'
-    let type = '...'
-    let style = '...'
-    let price = '...'
+    let prices = [ defaultValue, '$', '$$', '$$$', '$$$$' ]
+    let gender = defaultValue
+    let continent = defaultValue
+    let type = defaultValue
+    let style = defaultValue
+    let price = defaultValue
 
     const sortByName = (a, b) => (a.Name < b.Name) ? -1 : (a.Name > b.Name ? 1 : 0)
+
+    const filter = () => {
+        filteredCompanies = companies
+
+        if (gender !== defaultValue) {
+            filteredCompanies = filteredCompanies.filter(x => x['For...'].includes(gender))
+        }
+        if (continent !== defaultValue) {
+            filteredCompanies = filteredCompanies.filter(x => x['Present in...'].includes(continent))
+        }
+        if (type !== defaultValue) {
+            filteredCompanies = filteredCompanies.filter(x => x['Sells...'].includes(type))
+        }
+        if (style !== defaultValue) {
+            filteredCompanies = filteredCompanies.filter(x => x['Styles'].includes(style))
+        }
+        if (price !== defaultValue) {
+            filteredCompanies = filteredCompanies.filter((x) => {
+                x = x.Price.split(' - ')
+                if (x.length > 1) {
+                    return price.length >= x[0].length && price.length <= x[1].length
+                } else {
+                    return x[0] === price
+                }
+            })
+        }
+    }
 
     const getUniqueValues = (arr, field) => [ ...new Set(arr.flatMap(x => x[field])) ].sort()
 
@@ -27,49 +56,22 @@
         })
         res = await res.json()
         companies = res.records.map(x => x.fields).sort(sortByName)
-        console.log(companies)
-        genders = [ '...', ...getUniqueValues(companies, 'For...') ].reverse()
-        continents = [ '...', ...getUniqueValues(companies, 'Present in...') ]
-        types = [ '...', ...getUniqueValues(companies, 'Sells...') ]
-        styles = [ '...', ...getUniqueValues(companies, 'Styles') ]
         filteredCompanies = companies
+        console.log(companies)
+        genders = [ defaultValue, ...getUniqueValues(companies, 'For...').reverse() ]
+        continents = [ defaultValue, ...getUniqueValues(companies, 'Present in...') ]
+        types = [ defaultValue, ...getUniqueValues(companies, 'Sells...') ]
+        styles = [ defaultValue, ...getUniqueValues(companies, 'Styles') ]
     }
 
     update()
-
-    const filter = () => {
-        filteredCompanies = companies
-
-        if (gender !== '...') {
-            filteredCompanies = filteredCompanies.filter(x => x['For...'].includes(gender))
-        }
-        if (continent !== '...') {
-            filteredCompanies = filteredCompanies.filter(x => x['Present in...'].includes(continent))
-        }
-        if (type !== '...') {
-            filteredCompanies = filteredCompanies.filter(x => x['Sells...'].includes(type))
-        }
-        if (style !== '...') {
-            filteredCompanies = filteredCompanies.filter(x => x['Styles'].includes(style))
-        }
-        if (price !== '...') {
-            filteredCompanies = filteredCompanies.filter((x) => {
-                x = x.Price.split(' - ')
-                if (x.length > 1) {
-                    return price.length >= x[0].length && price.length <= x[1].length
-                } else {
-                    return x[0] === price
-                }
-            })
-        }
-    }
 </script>
 
 <div class="
     px-4
     pt-16
     pb-24
-    space-y-12
+    space-y-24
     max-w-5xl
     mx-auto
 ">
@@ -106,7 +108,7 @@
                     bg-gradient-to-r
                     from-orange-400
                     to-black
-                ">eb</span><span class="text-black">rand</span>
+                ">eB</span><span class="text-black">rand</span>
             </div>
             <div class="
                 font-bold
@@ -124,17 +126,19 @@
             </div>
         </div>
     </header>
-    {#if companies}
+    {#if filteredCompanies}
         <main class="
             space-y-8
+            sm:space-y-24
         ">
             <div class="
-                p-2
-                sm:p-12
+                px-2
+                sm:px-12
                 text-2xl
                 sm:text-3xl
                 font-extrabold
                 space-y-1
+                sm:space-y-2
             ">
                 <div>
                     I'm a
@@ -142,33 +146,39 @@
                         on:select={(event) => { gender = event.detail.value; filter() }}
                         options={genders}
                         value={gender}
+                        label='Gender dropdown'
                     />
-                    from
+                    currently in
                     <Dropdown
                         on:select={(event) => { continent = event.detail.value; filter() }}
                         options={continents}
                         value={continent}
+                        label='Continent dropdown'
                     />
                     looking for
                     <Dropdown
                         on:select={(event) => { type = event.detail.value; filter() }}
                         options={types}
                         value={type}
+                        label='Type dropdown'
                     />
                     with a(n)
                     <Dropdown
                         on:select={(event) => { style = event.detail.value; filter() }}
                         options={styles}
                         value={style}
+                        label='Style dropdown'
                     />
                     style, that costs around
                     <Dropdown
                         on:select={(event) => { price = event.detail.value; filter() }}
                         options={prices}
-                        value={price}    
+                        value={price}
+                        label='Price dropdown'
                     />
                 </div>
                 <div class="
+                    pl-1
                     text-lg
                     sm:text-xl
                     text-gray-300
@@ -186,14 +196,71 @@
                     <Card {company} />
                 {/each}
             </div>
+            <div class="
+                px-2
+                sm:px-12
+                text-2xl
+                sm:text-3xl
+                font-extrabold
+                space-y-1
+            ">
+                You can also
+                <div class="
+                    px-2
+                    py-0.5
+                    inline-block
+                ">
+                    <Button
+                        href="https://airtable.com/shrCpoA4ctpvwvrOt"
+                        blank
+                    >
+                        Submit a brand
+                    </Button>
+                </div>
+                or
+                <div class="
+                    px-2
+                    py-0.5
+                    inline-block
+                ">
+                    <Button
+                        href="https://airtable.com/shrvwAk5KNpQ3HhZ9"
+                        blank
+                    >
+                        Give some feedback
+                    </Button>
+                </div>
+            </div>
         </main>
-        <footer>
+        <footer class="
+            space-y-4
+        ">
+            <div class="
+                flex
+                justify-center
+                space-x-6
+            ">
+                <a
+                    href="https://github.com/gawlk/onebrand"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    class="
+                    outline-none
+                    text-gray-400
+                    hover:text-gray-500
+                ">
+                    <span class="sr-only">GitHub</span>
+                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
             <p class="
                 p-4
                 text-center
                 text-base
                 leading-6
-                text-gray-400
+                text-gray-300
             ">
                 &copy; {new Date().getFullYear()} Onebrand, No right reserved.
             </p>

@@ -2,8 +2,10 @@
     import { createEventDispatcher } from 'svelte'
     import Transition from 'svelte-class-transition'
 
-    export let value = ''
-    export let label = ''
+    import Button from './Button.svelte'
+
+    export let value
+    export let label
     export let options
 
     let toggle = false
@@ -14,7 +16,7 @@
 
     const dispatch = createEventDispatcher()
 
-    $: if (width && button) {
+    $: if (toggle && width && button) {
         const bb = button.getBoundingClientRect()
         // w-56 = 24 rem = 224px (if base is 16px) / 2 = 112
         const left = bb.left - 112
@@ -25,7 +27,7 @@
         } else if (left < 0 && right < width) {
             positionClasses = 'origin-top-left left-2'
         } else {
-            positionClasses = 'origin-center left-15'
+            positionClasses = 'origin-center -right-15'
         }
     }
 
@@ -56,45 +58,19 @@
     py-0.5
     relative
     inline-block
-    text-left
 ">
-    <button
-        bind:this={button}
-        type="button"
-        on:click={() => { toggle = ! toggle }}
-        {label}
-        active={toggle}
-        aria-haspopup="true"
-        aria-expanded="true"
-        class="
-        inline-flex
-        justify-center
-        items-center
-        w-full
-        rounded-lg
-        border-4
-        border-black
-        px-3
-        sm:px-4
-        py-1
-        sm:py-2
-        text-xl
-        sm:text-2xl
-        font-extrabold
-        leading-5
-        text-black
-        hover:underline
-        focus:outline-none
-        active:underline
-        transition
-        ease-in-out
-        duration-150
-    ">
-        {value}
-        <svg class="-mr-1 ml-2 h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
-    </button>
+    <div bind:this={button}>
+        <Button
+            type="button"
+            on:click={() => { toggle = ! toggle }}
+            {label}
+        >
+            {value}
+            <svg class="-mr-1 ml-2 h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        </Button>
+    </div>
 
     <Transition
         {toggle}
@@ -109,7 +85,7 @@
             class="
             absolute
             z-20
-            mt-2
+            mt-1
             w-56
             rounded-lg
             shadow-lg
@@ -119,9 +95,10 @@
             p-2
             {positionClasses}
         ">
-        {#each options as option}
+            {#each options as option}
                 <button
                     on:click={() => { dispatch('select', { value: option }); toggle = false }}
+                    {label}
                     class="
                     w-full
                     text-left
