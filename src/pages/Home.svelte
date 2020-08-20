@@ -49,11 +49,7 @@
     const getUniqueValues = (arr, field) => [ ...new Set(arr.flatMap(x => x[field])) ].sort()
 
     const update = async () => {
-        let res = await fetch('/api/companies', {
-            headers: {
-                'Cache-Control': 's-maxage=1, stale-while-revalidate',
-            }
-        })
+        let res = await fetch('/api/companies')
         res = await res.json()
         companies = res.records.map(x => x.fields).sort(sortByName)
         filteredCompanies = companies
