@@ -12,6 +12,7 @@
   "main": "src/main.js",
   "license": "MIT",
   "dependencies": {
+    "ackee-tracker": "^4.0.0",
     "micro-dash": "^8.0.0",
     "svelte": "^3.24.1",
     "svelte-class-transition": "^1.0.4",
