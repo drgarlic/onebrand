@@ -184,7 +184,7 @@
                     sm:text-xl
                     text-gray-300
                 ">
-                    All these parameters are of course optionnal !
+                    All these parameters are of course optional !
                 </div>
             </div>
             <div class="
